@@ -1,0 +1,4 @@
+[core]
+    remote = london_photos
+['remote "london_photos"']
+    url = gdrive://11GXuwC0VNzdtYnugvFnxDNWqU_KGmh1o
