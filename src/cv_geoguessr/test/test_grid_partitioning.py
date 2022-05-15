@@ -1,8 +1,7 @@
 from matplotlib import pyplot as plt
 
-from src.data.grid_partitioning import parse_boundary_csv, Boundary, Partitioning
+from cv_geoguessr.grid.grid_partitioning import parse_boundary_csv, Boundary, Partitioning
 import unittest
-
 
 class TestStringMethods(unittest.TestCase):
     def test_boundary_csv_parsing(self):

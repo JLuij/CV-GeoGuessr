@@ -1,0 +1,7 @@
+validators
+pytorch
+torchvision
+scikit-image
+pillow
+matplotlib
+shapely

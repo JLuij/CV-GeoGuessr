@@ -1,10 +1,14 @@
 import math
 from csv import DictReader
+from typing import Tuple
+
+import numpy as np
 import matplotlib.pyplot as plt
+
 from shapely.geometry import Polygon, Point
 
 
-def parse_boundary_csv(file_name):
+def parse_boundary_csv(file_name: str):
     """
     Reads and parses a csv file with city boundaries
     :param file_name: filepath of the csv file
@@ -47,7 +51,7 @@ def parse_boundary_csv(file_name):
 
 
 class Boundary:
-    def __init__(self, boundary_file_name):
+    def __init__(self, boundary_file_name: str):
         boundary = parse_boundary_csv(boundary_file_name)
         self.verts = boundary["verts"]
         self.min_lat = boundary['min_lat']
@@ -60,7 +64,7 @@ class Boundary:
                        self.min_lat + 0.5 * self.height)
         self.polygon = Polygon(self.verts)
 
-    def intersects_cube(self, top_left, width):
+    def intersects_cube(self, top_left: Tuple[float, float], width: float):
         bottom_right = (top_left[0] - width, top_left[1] - width)
 
         return self.polygon.intersects([
@@ -70,7 +74,7 @@ class Boundary:
             (bottom_right[0], top_left[1]),
         ])
 
-    def intersects(self, other):
+    def intersects(self, other: Polygon):
         return self.polygon.intersects(other)
 
     def plot(self):
@@ -88,7 +92,7 @@ class Boundary:
 
 
 class Partitioning:
-    def __init__(self, boundary_file_name, cell_width):
+    def __init__(self, boundary_file_name: str, cell_width: float):
         """
 
         :param boundary_file_name: filename of a csv with lat,lng of the boundary
@@ -124,12 +128,15 @@ class Partitioning:
 
     def plot(self):
         self.boundary.plot()
+
         for cell in self.cells:
             x = [v[0] for v in cell.exterior.coords]
             y = [v[1] for v in cell.exterior.coords]
+
             plt.plot(x, y)
 
-    def one_hot(self, coordinate):
+    def one_hot(self, coordinate: Tuple[float, float]):
         coordinate_point = Point(coordinate)
-        return [1 if cell.contains(coordinate_point) else 0 for cell in self.cells]
+
+        return np.array([1 if cell.contains(coordinate_point) else 0 for cell in self.cells])
 

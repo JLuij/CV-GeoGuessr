@@ -1,2 +1,9 @@
 wandb
-CV-GeoGuessr
+
+/data
+
+build
+*.egg-info
+__pycache__
+
+.DS_Store
