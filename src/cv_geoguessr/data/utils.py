@@ -7,9 +7,9 @@ def get_image_file_names_in_dir(dir: str):
 
 
 def take_coordinate_from_file_name(file_name: str):
-    long, lat = file_name.split('_')
+    lat, long = file_name.split('_')
 
     # Remove .jpg
-    lat = lat[:-4]
+    long = long[:-4]
 
-    return float(long), float(lat)
+    return float(lat), float(long)
