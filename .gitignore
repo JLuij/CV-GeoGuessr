@@ -8,4 +8,9 @@ __pycache__
 
 .DS_Store
 
+runs
+checkpoints
+
+.vscode
+
 notebooks/imagenet_classes.txt
