@@ -1,4 +1,6 @@
 import math
+
+import torch
 from csv import DictReader
 from typing import Tuple
 
@@ -138,5 +140,5 @@ class Partitioning:
     def one_hot(self, coordinate: Tuple[float, float]):
         coordinate_point = Point(coordinate[::-1])
 
-        return np.array([1 if cell.contains(coordinate_point) else 0 for cell in self.cells])
+        return torch.Tensor([1 if cell.contains(coordinate_point) else 0 for cell in self.cells])
 

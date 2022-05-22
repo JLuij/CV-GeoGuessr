@@ -21,6 +21,12 @@ class StreetViewImagesDataset(Dataset):
         return len(self.all_image_names)
 
     def __getitem__(self, idx):
+        """
+
+        :param idx:
+        :return: img, label
+        """
+
         if torch.is_tensor(idx):
             # TODO: check out whether this thing really gets called
             print('xxxxx')
@@ -31,4 +37,5 @@ class StreetViewImagesDataset(Dataset):
         if self.transform:
             image = self.transform(image)
 
-        return image, self.partitioning.one_hot(self.all_coordinates[idx])
+        label = self.partitioning.one_hot(self.all_coordinates[idx])
+        return image, label

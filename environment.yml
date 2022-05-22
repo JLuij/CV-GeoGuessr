@@ -1,0 +1,16 @@
+name: E:\Boeken\Jaar 5\Q4 Computer Vision\CV-GeoGuessr\env
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - matplotlib
+  - shapely
+  - validators
+  - pytorch
+  - scikit-image
+  - torchvision
+  - jupyter
+  - pytorch-model-summary
+  - torchaudio
+  - cudatoolkit=11.3
+prefix: E:\Boeken\Jaar 5\Q4 Computer Vision\CV-GeoGuessr\env

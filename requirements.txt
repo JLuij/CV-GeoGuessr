@@ -1,5 +1,5 @@
 validators
-torch
+pytorch
 torchvision
 scikit-image
 pillow
