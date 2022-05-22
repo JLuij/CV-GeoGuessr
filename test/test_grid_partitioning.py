@@ -3,6 +3,9 @@ from matplotlib import pyplot as plt
 from cv_geoguessr.grid.grid_partitioning import parse_boundary_csv, Boundary, Partitioning
 import unittest
 
+LONDON_FILE_NAME = 'data/london.csv'
+
+
 class TestStringMethods(unittest.TestCase):
     def test_boundary_csv_parsing(self):
         london_boundary = {
@@ -45,35 +48,29 @@ class TestStringMethods(unittest.TestCase):
                       (-0.18161773681640625, 51.47993965082005)]
         }
 
-        london_filename = 'london.csv'
-        read_boundary = parse_boundary_csv(london_filename)
+        read_boundary = parse_boundary_csv(LONDON_FILE_NAME)
         print(read_boundary)
 
         self.assertEqual(london_boundary, read_boundary)
 
     def test_plot_boundary(self):
-        london_filename = 'london.csv'
-        boundary = Boundary(london_filename)
+        boundary = Boundary(LONDON_FILE_NAME)
         boundary.plot()
         plt.show()
 
     def test_plot_partitioning(self):
-        london_filename = 'london.csv'
-        partitions = Partitioning(london_filename, 0.02)
+        partitions = Partitioning(LONDON_FILE_NAME, 0.02)
         partitions.plot()
         plt.show()
 
     def test_one_hot(self):
-        london_filename = 'london.csv'
-        partitions = Partitioning(london_filename, 0.02)
+        partitions = Partitioning(LONDON_FILE_NAME, 0.02)
 
         one_hot = partitions.one_hot((-0.1331, 51.505))
-        expected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        expected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         self.assertEqual(expected, one_hot)
-
-
-
 
 
 if __name__ == '__main__':
