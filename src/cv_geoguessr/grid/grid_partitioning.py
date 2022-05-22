@@ -4,7 +4,6 @@ import torch
 from csv import DictReader
 from typing import Tuple
 
-import numpy as np
 import matplotlib.pyplot as plt
 
 from shapely.geometry import Polygon, Point
@@ -96,7 +95,6 @@ class Boundary:
 class Partitioning:
     def __init__(self, boundary_file_name: str, cell_width: float):
         """
-
         :param boundary_file_name: filename of a csv with lat,lng of the boundary
         :param cell_width:
         """
@@ -140,5 +138,4 @@ class Partitioning:
     def one_hot(self, coordinate: Tuple[float, float]):
         coordinate_point = Point(coordinate[::-1])
 
-        return torch.Tensor([1 if cell.contains(coordinate_point) else 0 for cell in self.cells])
-
+        return torch.Tensor([1.0 if cell.contains(coordinate_point) else 0.0 for cell in self.cells])
