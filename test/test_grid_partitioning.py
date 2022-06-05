@@ -1,7 +1,8 @@
+import unittest
+
 from matplotlib import pyplot as plt
 
 from cv_geoguessr.grid.grid_partitioning import parse_boundary_csv, Boundary, Partitioning
-import unittest
 
 LONDON_FILE_NAME = 'data/london.csv'
 
