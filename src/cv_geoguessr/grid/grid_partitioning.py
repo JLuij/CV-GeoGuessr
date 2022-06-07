@@ -31,18 +31,18 @@ def parse_boundary_csv(file_name: str):
             lat = float(row['lat'])
             lng = float(row['lng'])
 
-            # add the vertex to the vertices list
+            # Add the vertex to the vertices list
             boundary['verts'].append(
                 (lng, lat)
             )
 
-            # keep track of the min/max latitude
+            # Keep track of the min/max latitude
             if boundary['min_lat'] is None or boundary['min_lat'] > lat:
                 boundary['min_lat'] = lat
             if boundary['max_lat'] is None or boundary['max_lat'] < lat:
                 boundary['max_lat'] = lat
 
-            # keep track of the min/max longitude
+            # Keep track of the min/max longitude
             if boundary['min_lng'] is None or boundary['min_lng'] > lng:
                 boundary['min_lng'] = lng
             if boundary['max_lng'] is None or boundary['max_lng'] < lng:
@@ -84,7 +84,7 @@ class Boundary:
         x.append(self.verts[0][0])
         y.append(self.verts[0][1])
         plt.plot(x, y)
-        # plot bounds
+        # Plot bounds
         plt.plot(
             [self.min_lng, self.max_lng, self.max_lng, self.min_lng, self.min_lng],
             [self.max_lat, self.max_lat, self.min_lat, self.min_lat, self.max_lat]
