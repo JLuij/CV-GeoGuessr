@@ -126,6 +126,9 @@ class Partitioning:
                 if self.boundary.intersects(poly):
                     self.cells.append(poly)
 
+    def __len__(self):
+        return len(self.cells)
+
     def plot(self):
         self.boundary.plot()
 
