@@ -1,13 +1,18 @@
 import math
 
+import random
 import torch
 from csv import DictReader
+from random import uniform
 from typing import Tuple
 
 import matplotlib.pyplot as plt
 
+from scipy.spatial import Voronoi, voronoi_plot_2d
+import numpy as np
 from shapely.geometry import Polygon, Point
-
+import shapely
+import shapely.ops
 
 def parse_boundary_csv(file_name: str):
     """
@@ -93,16 +98,99 @@ class Boundary:
 
 
 class Partitioning:
-    def __init__(self, boundary_file_name: str, cell_width: float):
+    def __init__(self, boundary_file_name: str, cell_width: float, voronoi :bool = False):
         """
         :param boundary_file_name: filename of a csv with lat,lng of the boundary
-        :param cell_width:
         """
 
         self.cells = []
-        self.cell_width = cell_width
+        self.cell_centers = []
+        self.voronoi = voronoi
         self.boundary = Boundary(boundary_file_name)
 
+        if voronoi:
+            self.add_voronoi_cells(cell_width)
+        else:
+            self.add_square_cells(cell_width)
+
+    def add_voronoi_cells(self, cell_width):
+        # https://stackoverflow.com/questions/27548363/from-voronoi-tessellation-to-shapely-polygons
+
+        # points = np.random.default_rng().uniform(size=(1000, 2),
+        #                                          low=(self.boundary.min_lng, self.boundary.min_lat),
+        #                                          high=(self.boundary.max_lng, self.boundary.max_lat))
+
+        # outside = []
+        # for i, point in enumerate(points):
+        #     coordinate_point = Point(point)
+        #     dist = self.boundary.polygon.distance(coordinate_point)
+        #     # if not self.boundary.polygon.contains(coordinate_point):
+        #     if dist > cell_width/2:
+        #         outside.append(i)
+        #         # plt.scatter(point[0], point[1])
+        i = 0
+        points = []
+        random.seed(10)
+
+        while i < 100:
+            point = (uniform(self.boundary.min_lng, self.boundary.max_lng),
+                     uniform(self.boundary.min_lat, self.boundary.max_lat))
+
+            coordinate_point = Point(point)
+
+            # skip points not in the boundary
+            if not self.boundary.polygon.contains(coordinate_point):
+                continue
+
+            # get the minimum distance
+            dist = self.boundary.polygon.exterior.distance(coordinate_point) * 2
+            for other in points:
+                other_dist = ((other[0]-point[0])**2 + (other[1] - point[1])**2)**0.5
+                # print(other_dist)
+                # print(dist)
+                dist = min(dist, other_dist)
+
+            if 0.5 * cell_width < dist < 0.7 * cell_width:
+                points.append(point)
+                self.cell_centers.append(point)
+                # print(points)
+                i = 0
+            elif len(points) > self.boundary.width/cell_width:
+                i += 1
+
+        # Additional points to close off the structure
+        n = 50
+        t = 5
+        top = self.boundary.max_lat + t * self.boundary.height
+        bottom = self.boundary.min_lat - t * self.boundary.height
+        left = self.boundary.min_lng - t * self.boundary.width
+        right = self.boundary.max_lng + t * self.boundary.width
+        for i in range(n+1):
+            x = left + i/n * (2*t + 1) * self.boundary.width
+            points.append((x, top))
+            points.append((x, bottom))
+        for i in range(n+1):
+            y = bottom + i/n * (2*t + 1) * self.boundary.height
+            points.append((left, y))
+            points.append((right, y))
+
+        vor = Voronoi(points)
+        # voronoi_plot_2d(vor) # uncomment to plot voronoi
+
+        lines = [
+            shapely.geometry.LineString(vor.vertices[line])
+            for line in vor.ridge_vertices
+            if -1 not in line
+        ]
+        for poly in shapely.ops.polygonize(lines):
+            if self.boundary.intersects(poly):
+                intersection_poly = poly.intersection(self.boundary.polygon)
+                self.cells.append(intersection_poly)
+                # print(intersection_poly.area)
+
+
+
+    def add_square_cells(self, cell_width):
         n_cells_x = math.ceil(self.boundary.width / cell_width)
         n_cells_y = math.ceil(self.boundary.height / cell_width)
 
@@ -137,6 +225,7 @@ class Partitioning:
             y = [v[1] for v in cell.exterior.coords]
 
             plt.plot(x, y)
+            plt.scatter(cell.centroid.x, cell.centroid.y)
 
     def one_hot(self, coordinate: Tuple[float, float]):
         coordinate_point = Point(coordinate[::-1])

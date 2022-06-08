@@ -73,6 +73,14 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(expected, one_hot)
 
+    def test_voronoi(self):
+        partitions = Partitioning(LONDON_FILE_NAME, 0.02, voronoi=True)
+        partitions.plot()
+        # plt.ylim((51.45, 51.57))
+        # plt.xlim((-0.25, 0))
+        plt.show()
+
+
 
 if __name__ == '__main__':
     unittest.main()
