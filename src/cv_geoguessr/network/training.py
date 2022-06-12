@@ -42,9 +42,11 @@ def train_model(model, criterion, optimizer, scheduler, data_loaders, data_set_s
             running_corrects = 0
 
             # Iterate over data.
+            i = 0
             for inputs, labels in data_loaders[phase]:
                 inputs = inputs.to(device)
                 labels = labels.to(device)
+                i += inputs.size(0)
 
                 # Zero the parameter gradients
                 optimizer.zero_grad()
@@ -53,11 +55,11 @@ def train_model(model, criterion, optimizer, scheduler, data_loaders, data_set_s
                 with torch.set_grad_enabled(phase == 'train'):
                     outputs = model(inputs)
                     _, preds = torch.max(outputs, 1)
+                    _, actual_label_index = torch.max(labels, 1)
 
-                    loss = criterion(outputs, labels)
+                    loss = criterion(outputs, actual_label_index)
 
                     # Add distance error metric
-                    _, actual_label_index = torch.max(labels, 1)
                     for index, label in enumerate(actual_label_index[preds != actual_label_index].tolist()):
                         distance_error.setdefault(label, 0)
                         distance_error[label] += (grid_partitioning.cells[label].centroid).distance(
@@ -75,6 +77,7 @@ def train_model(model, criterion, optimizer, scheduler, data_loaders, data_set_s
                 _, actual_label_index = torch.max(labels, 1)
                 running_loss += loss.item() * inputs.size(0)
                 running_corrects += torch.sum(preds == actual_label_index)
+                print(f'{phase} {i}/{data_set_sizes[phase]} - loss: {(running_loss / i):.4f} | accuracy: {(running_corrects.double() / i):.4f}\r', end='')
 
             if phase == 'train':
                 scheduler.step()
