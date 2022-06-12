@@ -1,5 +1,6 @@
 import math
 
+import matplotlib
 import random
 import torch
 from csv import DictReader
@@ -216,6 +217,14 @@ class Partitioning:
 
     def __len__(self):
         return len(self.cells)
+
+    def plot_prediction(self, values):
+        cmap = matplotlib.cm.get_cmap('Spectral')
+        for value, cell in zip(values, self.cells):
+            x = [v[0] for v in cell.exterior.coords]
+            y = [v[1] for v in cell.exterior.coords]
+
+            plt.fill(x, y, color=cmap(float(value)))
 
     def plot(self):
         self.boundary.plot()
