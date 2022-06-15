@@ -5,6 +5,7 @@ import torch as th
 def create_confusion_matrix(model, partitions, dataloader, predictions=True, device='cuda:0'):
     n = len(partitions.cells)
     confusion_matrix = th.zeros((n, n)).to(device)
+    samples = n * [0]
 
     i = 0
     for inputs, labels in dataloader:
@@ -20,6 +21,8 @@ def create_confusion_matrix(model, partitions, dataloader, predictions=True, dev
             l = th.argmax(label)
             # print(l)
 
+            samples[l] += 1
+
             if predictions:
                 confusion_matrix[l, :] += pred
             else:
@@ -27,4 +30,16 @@ def create_confusion_matrix(model, partitions, dataloader, predictions=True, dev
 
             i += 1
 
-    return confusion_matrix
+    return confusion_matrix, samples
+
+
+def test_coverage(partitions, dataloader):
+    n = len(partitions)
+    samples = n * [0]
+
+    for inputs, labels in dataloader:
+        for label in labels:
+            l = th.argmax(label)
+            samples[l] += 1
+
+    return samples
