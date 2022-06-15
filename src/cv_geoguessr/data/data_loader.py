@@ -2,18 +2,20 @@ import torchvision.transforms as transforms
 from cv_geoguessr.utils.plot_images import plot_images
 from torch.utils.data import DataLoader
 from cv_geoguessr.data.StreetViewImagesDataset import StreetViewImagesDataset
+import wandb
 
 
 def get_data_loader(LONDON_PHOTO_DIR, grid_partitioning, TRAIN_BATCH_SIZE, TEST_BATCH_SIZE, IMAGENET_MEAN,
-                    IMAGENET_STD):
+                    IMAGENET_STD, brightness = 0.2, contrast = 0.2, saturation = 0.05, hue = 0.1, distortion_scale = .5, p=.4):
+    wandb.config.update({"augmentation": {"color_jitter": {"brightness": brightness, "contrast": contrast, "saturation": saturation, "hue": hue }, "random_perspective": {"distortion_scale": distortion_scale, "p": p}}})
+
     # Add additional random transformation to augment the training dataset
     data_transforms_train = transforms.Compose([
         transforms.ToTensor(),
-        transforms.RandomPerspective(distortion_scale=.3, p=.4),
+        transforms.RandomPerspective(distortion_scale = distortion_scale, p = p),
         transforms.Resize(256),
         transforms.CenterCrop((224, 224)),
-        # transforms.RandomCrop(size = (224,224)),
-        transforms.ColorJitter(brightness=0.2, contrast=0, saturation=0.05, hue=0.1),
+        transforms.ColorJitter(brightness = brightness, contrast = contrast, saturation = saturation, hue = hue),
         transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD)
     ])
 
