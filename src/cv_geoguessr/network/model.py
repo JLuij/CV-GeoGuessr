@@ -84,6 +84,7 @@ def lock_layers(model, input_shape, lock_factor):
     layers = model_layers(model, input_shape)
     n = len(layers)
     locked = 0
+    ll = 0
     x = 0
     # print(n)  # 10 layers
     # print(model_layers)
@@ -98,7 +99,10 @@ def lock_layers(model, input_shape, lock_factor):
 
             if i <= n * lock_factor:
                 locked += 1
+        if i <= n * lock_factor:
+            ll += 1
 
+    print(f"{ll}/{n} layers locked")
     print(f"{locked}/{x} params locked")
 
     return model

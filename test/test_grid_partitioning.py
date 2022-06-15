@@ -74,8 +74,20 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(expected, one_hot)
 
     def test_voronoi(self):
-        partitions = Partitioning(LONDON_FILE_NAME, 0.02, voronoi=True)
+        plt.figure(figsize=(12,8))
+        partitions = Partitioning(LONDON_FILE_NAME, 0.02, voronoi=False)
         partitions.plot()
+        # plt.ylim((51.45, 51.57))
+        # plt.xlim((-0.25, 0))
+        plt.show()
+
+
+    def test_vis(self):
+        import numpy as np
+        partitions = Partitioning(LONDON_FILE_NAME, 0.02, voronoi=True)
+        partitions.plot_prediction(np.random.uniform(size=60))
+
+        # print(len(partitions))
         # plt.ylim((51.45, 51.57))
         # plt.xlim((-0.25, 0))
         plt.show()

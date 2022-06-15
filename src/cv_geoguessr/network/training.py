@@ -102,7 +102,7 @@ def train_model(model, criterion, optimizer, scheduler, data_loaders, data_set_s
             else:
                 test_acc = epoch_acc
 
-            print(f'{phase} loss: {epoch_loss:.4f} | accuracy: {epoch_acc:.4f}')
+            print(f'{phase} loss: {epoch_loss:.4f} | accuracy: {epoch_acc:.4f}                 ')
 
             # Deep copy the model
             if phase == 'val' and epoch_acc > best_acc:
