@@ -1,7 +1,7 @@
 let min_x = -0.225
-let min_y = 51.35
-let map_width = 0.22
-let map_height = 0.16
+let min_y = 51.37
+let map_width = 0.24
+let map_height = 0.14
 
 function map_x(value){
   return (value - min_x) / map_width * width
