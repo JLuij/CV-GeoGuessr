@@ -1,0 +1,50 @@
+<html>
+  <head>
+  <meta content='width=device-width' name='viewport'/>
+
+  <meta name="viewport" content="width=device-width"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+    <script type="text/javascript">
+      var scaleFactor = 20;    //de variable scaleFactor wordt verderop in het programma gebuikt om te bepalen hoe ingezoemt de grafiek is
+
+    </script>
+
+    <script src="lock7_prob_19.js"></script>
+    <script src="pathfinding.js"></script>
+    <script src="node.js"></script>
+    <script src="Graph.js"></script>
+
+    <title>Londen neighbourhood simularity</title>
+    <style media="screen">
+      body{
+        margin: 0px
+      }
+      #sketch-holder{
+        display: flex;
+      }
+      canvas{
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="sketch-holder">
+        <!-- Our sketch will go here! -->
+      </div>
+  </div>
+
+  <script>
+      (function () {
+        var blockContextMenu, myElement;
+
+        blockContextMenu = function (evt) {
+          evt.preventDefault();
+        };
+
+        myElement = document.getElementsByTagName("BODY")[0];
+        myElement.addEventListener('contextmenu', blockContextMenu);
+      })();
+    </script>
+  </body>
+</html>
