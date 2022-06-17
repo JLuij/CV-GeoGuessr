@@ -258,7 +258,7 @@ A more in-depth analysis of different data augmentations can be performed. An ob
 
 ### Reproducing our results
 
-Our results are fully reproducible using [our code](https://github.com/JLuij/CV-GeoGuessr), which we make public in order to aid future work in this area. Please do note however, that you will have to 'bring' your own data, as Google Streetview images cannot be stored and/or published.
+Our results are fully reproducible using [our code](https://github.com/JLuij/CV-GeoGuessr), which we make public in order to aid future work in this area. Please do note however, that you will have to 'bring' your own data, as Google Streetview images may not be stored and/or published.
 
 ### References
 - [1] Müller-Budack, E., Pustu-Iren, K., Ewerth, R. (2018). Geolocation Estimation of Photos Using a Hierarchical Model and Scene Classification. In: Ferrari, V., Hebert, M., Sminchisescu, C., Weiss, Y. (eds) Computer Vision – ECCV 2018. ECCV 2018. Lecture Notes in Computer Science(), vol 11216. Springer, Cham. https://doi.org/10.1007/978-3-030-01258-8_35
