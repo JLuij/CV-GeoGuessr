@@ -68,17 +68,10 @@ However, one of the things we were interested in checking, is the effect of the 
 
 In our first approach, we divided up the data into square cells for the sake of simplicity. These cells were all of equal area however this did not mean that they encapsulated a similar number of images. This is the case for the cells that lie on the boundary of the dataset and therefore only partly overlap with the location of images.
 
-<div style="text-align: center; margin:0; auto;">
-    <div style=" display: inline; vertical-align: top; float: none;">
-<!--         <img src="https://i.imgur.com/TFfHc02.png" height="auto" width="300"/> -->
-<!--         <img style=" display: inline; vertical-align: top; float: none;" src="https://i.imgur.com/40cue5J.png"/ height="auto" width="300"/> -->      
-        <img style="display: inline; vertical-align: top; float: none;" src="https://i.imgur.com/RJ0bW0D.png"/ height="auto" width="350"/>
-        <img style="display: inline; vertical-align: top; float: none;" src="https://i.imgur.com/GrLALYv.png"/ height="auto" width="350"/>
-    </div>
-</div>
-<!-- ![](https://i.imgur.com/GrLALYv.png) -->
 
-<!-- ![](https://i.imgur.com/RJ0bW0D.png) -->
+| ![](https://i.imgur.com/RJ0bW0D.png)    | ![](https://i.imgur.com/GrLALYv.png)      | 
+| -------- | -------- | 
+
 
 
 Instead we decided to look into a way of subdividing the city boundary in a more equal way. We settled on Voronoi subdivision. For this we randomly sample points within the outer boundary. If a point does not fall within a margin range from the desired distance from the map border or existing points, the random point will be rejected. Otherwise the point is added to the list of Voronoi centers. Once no more points can be placed, these points are used to generate the Voronoi cells with scipy's Voronoi function. These are then turned into cell geometry, the end result beings cells that are roughly equally sized and completely fall within the dataset boundary.
@@ -179,14 +172,8 @@ In these experiments we see that the test accuracy for Voronoi cells are margina
 
 When examining how many train images a single cell has it becomes clear how the square grid cells caused 7 cells to have no data points at all, and a number of cells only have a low amount of images. The Voronoi grid cells are still not perfect, however they are already a bit better with only a few cells with between 10 and 20 images.
 
-<div style="text-align: center; margin:0; auto;">
-    <div style="display: inline; vertical-align: top; float: none;">
-<!--         <img src="https://i.imgur.com/TFfHc02.png" height="auto" width="300"/> -->
-<!--         <img style="display: inline; vertical-align: top; float: none;" src="https://i.imgur.com/40cue5J.png"/ height="auto" width="300"/> -->      
-        <img style="display: inline; vertical-align: top; float: none;" src="https://i.imgur.com/Nairo9J.png"/ height="auto" width="350"/>
-        <img style="display: inline; vertical-align: top; float: none;" src="https://i.imgur.com/4cpKMDc.png"/ height="auto" width="350"/>
-    </div>
-</div>
+| ![](https://i.imgur.com/Nairo9J.png)    | ![](https://i.imgur.com/4cpKMDc.png)      | 
+| -------- | -------- | 
 
 ### Interactive neighborhood similarity plot
 
