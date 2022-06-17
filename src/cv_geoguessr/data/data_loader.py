@@ -7,7 +7,7 @@ import wandb
 
 def get_data_loader(LONDON_PHOTO_DIR, grid_partitioning, TRAIN_BATCH_SIZE, TEST_BATCH_SIZE, IMAGENET_MEAN,
                     IMAGENET_STD, brightness = 0.2, contrast = 0.2, saturation = 0.05, hue = 0.1, distortion_scale = .5, p=.4):
-    wandb.config.update({"augmentation": {"color_jitter": {"brightness": brightness, "contrast": contrast, "saturation": saturation, "hue": hue }, "random_perspective": {"distortion_scale": distortion_scale, "p": p}}})
+    # wandb.config.update({"augmentation": {"color_jitter": {"brightness": brightness, "contrast": contrast, "saturation": saturation, "hue": hue }, "random_perspective": {"distortion_scale": distortion_scale, "p": p}}})
 
     # Add additional random transformation to augment the training dataset
     data_transforms_train = transforms.Compose([
