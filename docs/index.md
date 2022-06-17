@@ -84,8 +84,8 @@ In our first approach, we divided up the data into square cells for the sake of 
 Instead we decided to look into a way of subdividing the city boundary in a more equal way. We settled on Voronoi subdivision. For this we randomly sample points within the outer boundary. If a point does not fall within a margin range from the desired distance from the map border or existing points, the random point will be rejected. Otherwise the point is added to the list of Voronoi centers. Once no more points can be placed, these points are used to generate the Voronoi cells with scipy's Voronoi function. These are then turned into cell geometry, the end result beings cells that are roughly equally sized and completely fall within the dataset boundary.
 
 Next to this, we also experimented with predicting the coordinates of an image directly. To do this, the final layer in the ResNet-50 was replaced with a 256 neuron layer, followed by a ReLU, followed by a 2 neuron layer: one neuron predicting latitude, the other one predicting longitude. Both of these values were scaled to always be between 0 and 1.
-
-**resultaten toevoegen?**
+<!-- 
+**resultaten toevoegen?** -->
 
 ### (Un)locking different amounts of layers
 
