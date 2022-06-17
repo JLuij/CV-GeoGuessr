@@ -155,11 +155,11 @@ It can clearly be seen that the validation loss and accuracy are almost the same
 
 ### Directly predicting coordinates
 
-In the next experiment, we tried to, instead of predicting the class label of the cell in which the photo was taken, directly predict the photo's latitude and longitude. In the table below, you can find the average distance error expressed in degrees after 15 epochs for the cells-based model and after one epoch for the coordinate based model.
+In the next experiment, we tried to, instead of predicting the class label of the cell in which the photo was taken, directly predict the photo's latitude and longitude. In the table below, you can find the average distance error expressed in the model's coordinate space after 15 epochs for the cells-based model and after one epoch for the coordinate based model.
 
 | Cells | Coordinate |
 | -------- | -------- |
-| 0.063 degrees (6.99 km)    | 0.035 degrees (3.89 km)   |
+| 0.063 distance (6.99 km)    | 0.035 distance (3.89 km)   |
 
 Only one epoch was run for the coordinate-based model, as we were unable to improve the performance of this model after the first epoch: even after tuning the learning rate and playing with unlock factors, we did not manage to go lower.
 
@@ -233,11 +233,15 @@ The blue plot shows a more true representation of the model's capabilities. Alth
 We can conclude that data augmentation is indeed essential for deep neural network training.
 
 
-## Conclusion
+## Conclusions
 
-- With a dataset limited to 10.000 images its more efficient to only unlock part of a pretrained model.
-- Simularity of neighbourhoods can somewhat be infeard from the model predicitons.
-- Its better to fintune a model with more images than more relevant images.
+With all of the above experiments in mind, the following conclusions can be drawn:
+
+- Data augmentation is crucial in preventing your model from overfitting.
+- With a dataset limited to 10.000 images, it's more efficient to only unlock part of a pretrained Resnet-50 model.
+- Similarity of neighbourhoods can somewhat be inferred from the model predicitons.
+- Its better to finetune a model with more images from ImageNet than more relevant images from Places365.
+
 
 ## Discussion/future work
 ### Approach
@@ -253,7 +257,7 @@ A more in-depth analysis of different data augmentations can be performed. An ob
 ### Group Member Contributions
 - *Sjoerd Groot: gridcell partitioning, (un)locking pretrained weights, WandB integration, interactive result widget, checkpoint saving/loading*
 - *Douwe den Blanken: Places365, coordinate prediction, pipeline setup*
-- *Joost Luijmes: Distance error metric, Data augmentation, Google Cloud setup*
+- *Joost Luijmes: Distance error metric, Data augmentation, Google Cloud VM setup*
 
 
 ### Reproducing our results
